@@ -1,0 +1,85 @@
+{
+  "notes": [
+    {
+      "id": "1",
+      "content": "HTML is easy",
+      "important": true
+    },
+    {
+      "id": "2",
+      "content": "Browser can execute only JavaScript",
+      "important": true
+    },
+    {
+      "id": "3",
+      "content": "GET and POST are the most important methods of HTTP protocol",
+      "important": false
+    },
+    {
+      "content": "Vamos a probar",
+      "important": false,
+      "id": "Oe_1I2pcjU8"
+    },
+    {
+      "content": "nueva nota...Otra vez",
+      "important": false,
+      "id": "XgEbKbYeKqY"
+    },
+    {
+      "content": "Vicky Patarroyo",
+      "important": false,
+      "id": "pTrsKobbYLM"
+    },
+    {
+      "content": "Okidoki",
+      "important": false,
+      "id": "raY3yZSRSEU"
+    },
+    {
+      "content": "Okidoki",
+      "important": false,
+      "id": "KKmQWluCHxs"
+    },
+    {
+      "content": "Probando",
+      "important": false,
+      "id": "2dWlSW9T3xc"
+    },
+    {
+      "content": "Probando",
+      "important": false,
+      "id": "VAumN6X8CwA"
+    },
+    {
+      "content": "nueva nota vp",
+      "important": true,
+      "id": "I65qAKJAs_w"
+    },
+    {
+      "content": "nueva nota vp",
+      "important": true,
+      "id": "DwB1r6NFzxI"
+    },
+    {
+      "content": "nueva nota...Vamos a ver nueva nota",
+      "important": false,
+      "id": "kGuFxOriBcg"
+    },
+    {
+      "content": "nueva nota...Vamos a ver nueva nota",
+      "important": false,
+      "id": "FEXuOOHFiws"
+    },
+    {
+      "content": "Vamos a revisar",
+      "important": false,
+      "id": "gqfIPMYFq_M"
+    },
+    {
+      "content": "Vamos a revisar",
+      "important": false,
+      "id": "hgUDpWIFaW4"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
