@@ -4,9 +4,13 @@ const express = require("express");
 const app = express();
 
 const cors = require("cors");
+const path = require("path"); // 👈 IMPORTANTE
 
 app.use(cors());
 app.use(express.json());
+
+// 👇 Servir frontend (carpeta build)
+app.use(express.static(path.join(__dirname, "build")));
 
 let notes = [
   {
@@ -26,10 +30,7 @@ let notes = [
   },
 ];
 
-app.get("/", (request, response) => {
-  response.send("<h1>Hello world</h1>");
-});
-
+// API
 app.get("/api/notes", (request, response) => {
   response.json(notes);
 });
@@ -76,12 +77,14 @@ app.post("/api/notes", (request, response) => {
   response.json(note);
 });
 
-/*const PORT = 3001;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});*/
+// 👇 IMPORTANTE: esto reemplaza tu "/" anterior
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
+// 👇 Puerto correcto para Render
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
+
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });
