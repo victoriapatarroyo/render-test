@@ -1,15 +1,13 @@
-const { response, request } = require("express");
-
 const express = require("express");
 const app = express();
 
 const cors = require("cors");
-const path = require("path"); // 👈 IMPORTANTE
+const path = require("path");
 
 app.use(cors());
 app.use(express.json());
 
-// 👇 Servir frontend (carpeta build)
+// 👇 Servir archivos estáticos del frontend
 app.use(express.static(path.join(__dirname, "build")));
 
 let notes = [
@@ -30,27 +28,27 @@ let notes = [
   },
 ];
 
-// API
-app.get("/api/notes", (request, response) => {
-  response.json(notes);
+// ✅ RUTAS API
+app.get("/api/notes", (req, res) => {
+  res.json(notes);
 });
 
-app.get("/api/notes/:id", (request, response) => {
-  const id = Number(request.params.id);
+app.get("/api/notes/:id", (req, res) => {
+  const id = Number(req.params.id);
   const note = notes.find((note) => note.id === id);
 
   if (note) {
-    response.json(note);
+    res.json(note);
   } else {
-    response.status(404).end();
+    res.status(404).end();
   }
 });
 
-app.delete("/api/notes/:id", (request, response) => {
-  const id = Number(request.params.id);
+app.delete("/api/notes/:id", (req, res) => {
+  const id = Number(req.params.id);
   notes = notes.filter((note) => note.id !== id);
 
-  response.status(204).end();
+  res.status(204).end();
 });
 
 const generateId = () => {
@@ -58,11 +56,11 @@ const generateId = () => {
   return maxId + 1;
 };
 
-app.post("/api/notes", (request, response) => {
-  const body = request.body;
+app.post("/api/notes", (req, res) => {
+  const body = req.body;
 
   if (!body.content) {
-    return response.status(400).json({
+    return res.status(400).json({
       error: "content missing",
     });
   }
@@ -74,15 +72,16 @@ app.post("/api/notes", (request, response) => {
   };
 
   notes = notes.concat(note);
-  response.json(note);
+  res.json(note);
 });
 
-// 👇 IMPORTANTE: esto reemplaza tu "/" anterior
-app.get("/*", (req, res) => {
+// 👇 IMPORTANTE: fallback para frontend (SPA)
+// ⚠️ Va SIEMPRE después de las rutas /api
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-// 👇 Puerto correcto para Render
+// 👇 Puerto para Render
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, "0.0.0.0", () => {
