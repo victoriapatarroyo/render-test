@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 // 👇 Servir archivos estáticos del frontend
-app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "dist")));
 
 let notes = [
   {
@@ -78,7 +78,7 @@ app.post("/api/notes", (req, res) => {
 // 👇 IMPORTANTE: fallback para frontend (SPA)
 // ⚠️ Va SIEMPRE después de las rutas /api
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join(__dirname, "dist", "index.html")); // ← cambio aquí
 });
 
 // 👇 Puerto para Render
