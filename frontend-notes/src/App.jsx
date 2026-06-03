@@ -1,34 +1,20 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Note from "./components/Note";
 import noteService from "./services/note";
 import Notification from "./components/Notification";
 import Footer from "./components/Footer";
 
 const App = () => {
-  const [notes, setNotes] = useState(null);
+  const [notes, setNotes] = useState([]); // ← null → [] para que .map() funcione
   const [newNote, setNewNote] = useState("nueva nota...");
   const [showAll, setShowAll] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("Some error happended...");
-
-  const hook = () => {
-    console.log("effect");
-    axios.get("http://localhost:3001/notes").then((response) => {
-      console.log("promise fullfilled");
-      setNotes(response.data);
-    });
-  };
+  const [errorMessage, setErrorMessage] = useState(null); // ← null en lugar de un mensaje hardcodeado
 
   useEffect(() => {
     noteService.getAll().then((initialNotes) => {
       setNotes(initialNotes);
     });
   }, []);
-
-  //No renderizar si notes es null
-  if (!notes) {
-    return null;
-  }
 
   const addNote = (event) => {
     event.preventDefault();
@@ -37,26 +23,20 @@ const App = () => {
       important: Math.random() < 0.5,
     };
 
+    // ← Solo una llamada, la del servicio (se eliminó el axios.post duplicado)
     noteService.create(noteObject).then((returnedNote) => {
       setNotes(notes.concat(returnedNote));
-      setNewNote("");
-    });
-
-    axios.post("http://localhost:3001/notes", noteObject).then((response) => {
-      setNotes(notes.concat(response.data));
       setNewNote("");
     });
   };
 
   const handleNoteChange = (event) => {
-    //console.log(event.target.value);
     setNewNote(event.target.value);
   };
 
   const noteToShow = showAll ? notes : notes.filter((note) => note.important);
 
   const toggleImportanceOf = (id) => {
-    const url = `http://localhost:3001/notes/${id}`;
     const note = notes.find((n) => n.id === id);
     const changedNote = { ...note, important: !note.important };
 
@@ -65,7 +45,7 @@ const App = () => {
       .then((returnedNote) => {
         setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)));
       })
-      .catch((error) => {
+      .catch(() => {
         setErrorMessage(
           `Note '${note.content}' was already removed from server`,
         );
