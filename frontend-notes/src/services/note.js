@@ -1,6 +1,5 @@
 import axios from "axios";
 
-//const baseUrl = "https://render-test-otxo.onrender.com/api/notes";
 const baseUrl = "/api/notes";
 
 const getAll = () => {
